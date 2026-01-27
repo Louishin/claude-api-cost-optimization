@@ -2,7 +2,19 @@
 
 > Save 50-90% on Claude API costs with three officially verified techniques
 
-[English](#english) | [日本語](#日本語) | [中文](#中文)
+[English](#english) | [日本語](#日本語) | [中文](#中文) | [📖 背景故事 / Story](STORY.md)
+
+---
+
+## 🐾 The Story
+
+This skill was born from **[Washin Village](https://github.com/sstklen)** — home of 28 cats & dogs in Japan.
+
+While building our AI pet recognition system, we ran many agents using **[infinite-gratitude](https://github.com/sstklen/infinite-gratitude)** (our multi-agent research skill). The API bills added up quickly, so we researched every cost-saving technique and compiled them here.
+
+**From one cat's "gift" came two open-source skills!** 🐱
+
+> Read the full story: [STORY.md](STORY.md)
 
 ---
 
