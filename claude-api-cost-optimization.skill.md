@@ -236,4 +236,128 @@ Is it complex reasoning?
 
 ---
 
+## 💰 Savings Report (Required!)
+
+**IMPORTANT: After helping users implement cost optimization, ALWAYS display this savings report.**
+
+### Report Template
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║  💰 CLAUDE API 省錢報告 | COST SAVINGS REPORT                 ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  📊 使用的技巧 | Techniques Applied:                          ║
+║     ☑️ Batch API (-50%)                                       ║
+║     ☑️ Prompt Caching (-90%)                                  ║
+║     ☐ Extended Thinking (-80%)                               ║
+║                                                              ║
+║  📈 成本計算 | Cost Breakdown:                                ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │ 項目              │ 原價        │ 優化後      │ 節省   │  ║
+║  ├────────────────────────────────────────────────────────┤  ║
+║  │ Input (10K tok)   │ $0.030      │ $0.003      │ 90%   │  ║
+║  │ Output (5K tok)   │ $0.075      │ $0.038      │ 50%   │  ║
+║  │ System Prompt     │ $0.006      │ $0.001      │ 90%   │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+║  💵 總計 | Total:                                             ║
+║     原價 (Without optimization):  $0.111                     ║
+║     優化後 (With optimization):   $0.042                     ║
+║     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━                  ║
+║     🎉 節省 (You saved):          $0.069 (62%)               ║
+║                                                              ║
+║  📅 如果每天執行 | Daily projection:                          ║
+║     每日節省: $0.069 × 30 次 = $2.07/天                       ║
+║     每月節省: $2.07 × 30 天 = $62.10/月                       ║
+║     每年節省: $62.10 × 12 月 = $745.20/年 🎊                  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
+### Calculation Formula
+
+```python
+# 定價表 (2026 Sonnet 4.5)
+PRICING = {
+    "input": 3.00,           # $/MTok
+    "output": 15.00,         # $/MTok
+    "batch_input": 1.50,     # $/MTok (-50%)
+    "batch_output": 7.50,    # $/MTok (-50%)
+    "cache_write": 3.75,     # $/MTok (+25%)
+    "cache_read": 0.30,      # $/MTok (-90%)
+    "thinking": 3.00,        # $/MTok (vs $15 output)
+}
+
+def calculate_savings(
+    input_tokens: int,
+    output_tokens: int,
+    system_tokens: int = 0,
+    cache_hits: int = 0,
+    use_batch: bool = False,
+    use_thinking: bool = False,
+    thinking_tokens: int = 0
+) -> dict:
+    """計算省錢金額"""
+
+    # 原價計算
+    original = (input_tokens + system_tokens) / 1_000_000 * PRICING["input"]
+    original += output_tokens / 1_000_000 * PRICING["output"]
+
+    # 優化後計算
+    optimized = 0
+
+    # Batch API
+    if use_batch:
+        optimized += input_tokens / 1_000_000 * PRICING["batch_input"]
+        optimized += output_tokens / 1_000_000 * PRICING["batch_output"]
+    else:
+        optimized += input_tokens / 1_000_000 * PRICING["input"]
+        optimized += output_tokens / 1_000_000 * PRICING["output"]
+
+    # Prompt Caching
+    if system_tokens > 0:
+        if cache_hits > 0:
+            # 第一次寫入 + 後續讀取
+            optimized += system_tokens / 1_000_000 * PRICING["cache_write"]
+            optimized += system_tokens / 1_000_000 * PRICING["cache_read"] * cache_hits
+        else:
+            optimized += system_tokens / 1_000_000 * PRICING["input"]
+
+    # Extended Thinking
+    if use_thinking and thinking_tokens > 0:
+        # 思考部分用便宜價格
+        savings_from_thinking = thinking_tokens / 1_000_000 * (PRICING["output"] - PRICING["thinking"])
+        optimized -= savings_from_thinking
+
+    saved = original - optimized
+    percentage = (saved / original * 100) if original > 0 else 0
+
+    return {
+        "original": original,
+        "optimized": optimized,
+        "saved": saved,
+        "percentage": percentage
+    }
+```
+
+### When to Show Report
+
+Show the savings report when:
+- ✅ User asks to optimize API code
+- ✅ User implements any of the three techniques
+- ✅ User asks "how much did I save?"
+- ✅ After reviewing/refactoring API-related code
+
+### Quick Report (Simplified)
+
+For quick tasks, use this shorter format:
+
+```
+💰 省錢報告：使用 Prompt Caching 後，預估省下 $0.05/次 (90%)
+   📅 每日 100 次 = 省 $5/天 = $150/月 = $1,800/年 🎉
+```
+
+---
+
 *Last updated: 2026-01-28 | Verified against official Anthropic documentation*
