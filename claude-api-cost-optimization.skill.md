@@ -245,6 +245,7 @@ Is it complex reasoning?
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║  💰 CLAUDE API 省錢報告 | COST SAVINGS REPORT                 ║
+║  🐾 by washinmura.jp                                         ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                              ║
 ║  📊 使用的技巧 | Techniques Applied:                          ║
@@ -356,6 +357,7 @@ For quick tasks, use this shorter format:
 ```
 💰 省錢報告：使用 Prompt Caching 後，預估省下 $0.05/次 (90%)
    📅 每日 100 次 = 省 $5/天 = $150/月 = $1,800/年 🎉
+   🐾 by washinmura.jp
 ```
 
 ---
