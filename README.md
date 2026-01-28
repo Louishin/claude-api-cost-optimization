@@ -3,179 +3,123 @@
 [![GitHub stars](https://img.shields.io/github/stars/sstklen/claude-api-cost-optimization?style=social)](https://github.com/sstklen/claude-api-cost-optimization)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-> 💰 Save 50-90% on Claude API costs with three officially verified techniques
+> **Save 50-90% on Claude API costs** with three officially verified techniques
 
+## ⚡ Quick Start
 
-![Claude API Cost Optimization Preview](assets/preview.png)
+```bash
+# Install the skill
+cp claude-api-cost-optimization.skill.md ~/.claude/skills/
 
-[English](#english) | [日本語](#日本語) | [中文](#中文) | [📖 背景故事 / Story](STORY.md)
+# Calculate your potential savings
+python scripts/calculate_savings.py --input 10000 --output 5000 --requests 100
+```
 
----
+## 💰 Three Techniques, Massive Savings
 
-## 🐾 The Story
+| Technique | Savings | Best For | Docs |
+|-----------|---------|----------|------|
+| **Batch API** | 50% off | Non-urgent bulk tasks | [Reference](references/batch-api.md) |
+| **Prompt Caching** | 90% off | Repeated system prompts | [Reference](references/prompt-caching.md) |
+| **Extended Thinking** | ~80% off | Complex reasoning | [Reference](references/extended-thinking.md) |
 
-This skill was born from **[Washin Village](https://github.com/sstklen)** — home of 28 cats & dogs in Japan.
+## 📊 Proof: Real Billing Data
 
-While building our AI pet recognition system, we ran many agents using **[infinite-gratitude](https://github.com/sstklen/infinite-gratitude)** (our multi-agent research skill). The API bills added up quickly, so we researched every cost-saving technique and compiled them here.
+**Source:** Anthropic Console CSV Export (2026-01-27)
 
-**From one cat's "gift" came two open-source skills!** 🐱
+| Usage Type | Input Tokens | Cache Read | Output | Savings Applied |
+|------------|--------------|------------|--------|-----------------|
+| Sonnet (standard) | 79,224 | **39,204** ✅ | 71,608 | Caching working! |
+| Sonnet (batch) | 3,612 | **3,564** ✅ | 6,016 | Batch + Cache! |
 
-> Read the full story: [STORY.md](STORY.md)
+👉 **Full analysis:** [examples/billing-data-analysis.md](examples/billing-data-analysis.md)
 
----
+### Real-World Results (294 Videos)
 
-<a name="english"></a>
-## 🇺🇸 English
+| Optimization | Cost/Video | Total | Savings |
+|--------------|------------|-------|---------|
+| None | $0.038 | $11.14 | — |
+| + Caching | $0.033 | $9.62 | 14% |
+| + Batch | $0.019 | $5.57 | 50% |
+| **+ Both** | **$0.016** | **$4.79** | **57%** 🔥 |
 
-### The Problem
+👉 **Full report:** [examples/GAIA-savings-report.md](examples/GAIA-savings-report.md)
 
-Claude API costs can add up quickly:
-- Sonnet: $3 input / $15 output per million tokens
-- Opus: $15 input / $75 output per million tokens
+## 🔧 Code Examples
 
-### The Solution
-
-Three officially verified techniques that can save you **50-90%**:
-
-| Technique | Savings | Best For |
-|-----------|---------|----------|
-| **Batch API** | 50% off | Non-urgent bulk tasks |
-| **Prompt Caching** | 90% off | Repeated system prompts |
-| **Extended Thinking** | ~80% off | Complex reasoning (thinking portion) |
-
-### Quick Example
+### Prompt Caching (90% off repeated prompts)
 
 ```python
-# ❌ Without optimization: $3/MTok
-response = client.messages.create(
-    model="claude-sonnet-4-5",
-    messages=[{"role": "user", "content": "Hello"}]
-)
-
-# ✅ With Prompt Caching: $0.30/MTok (90% savings!)
 response = client.messages.create(
     model="claude-sonnet-4-5",
     system=[{
         "type": "text",
-        "text": "Your long system prompt here...",
-        "cache_control": {"type": "ephemeral"}  # ← Magic line!
+        "text": "Your long system prompt (>1024 tokens)...",
+        "cache_control": {"type": "ephemeral"}  # ← This saves 90%!
     }],
     messages=[{"role": "user", "content": "Hello"}]
 )
 ```
 
-### 🎯 Real World Case Study: GAIA v4.8.2
+### Batch API (50% off everything)
 
-We battle-tested all techniques in **GAIA** (Global AI Intelligence for Animals) — our animal recognition system processing 294 videos.
-
-#### Results
-
-| Technique | Expected Savings | Actual Savings | Status |
-|-----------|-----------------|----------------|--------|
-| Prompt Caching | -90% | **-14%** | ✅ Working |
-| Batch API | -50% | **-50%** | ✅ Working |
-| Cache + Batch | -95% | **-57%** | ✅ Working |
-
-#### Cost Breakdown (294 videos)
-
-| Mode | Per Video | Total | Savings |
-|------|-----------|-------|---------|
-| Original | $0.038 | $11.14 | — |
-| + Caching | $0.033 | $9.62 | 14% |
-| + Batch | $0.019 | $5.57 | 50% |
-| **+ Both** | **$0.016** | **$4.79** | **57%** 🔥 |
-
-#### 💡 Key Insight: Image-Heavy Workloads
-
-> **Why only 14% savings from caching instead of 90%?**
->
-> In image recognition tasks, **images account for ~85% of input tokens**.
-> Only the system prompt (~15%) can be cached.
->
-> ```
-> Input Composition:
-> ├── System Prompt: ~15% → ✅ Cacheable (saves 90%)
-> └── Image Data:    ~85% → ❌ Cannot cache
->
-> Overall Savings: 15% × 90% = ~14%
-> ```
-
-This is **not documented** in the official Anthropic docs — we learned it the hard way!
-
-### Installation
-
-```bash
-# Copy to your Claude Code skills folder
-cp claude-api-cost-optimization.skill.md ~/.claude/skills/
+```python
+batch = client.messages.batches.create(
+    requests=[
+        {
+            "custom_id": "task-001",
+            "params": {
+                "model": "claude-sonnet-4-5",
+                "max_tokens": 1024,
+                "messages": [{"role": "user", "content": "Translate..."}]
+            }
+        }
+        # Add up to 100,000 requests!
+    ]
+)
 ```
 
-### Real Results
+👉 **Full scripts:** [scripts/](scripts/)
 
-| Scenario | Before | After | Savings |
-|----------|--------|-------|---------|
-| 30 daily video scripts | $1.50/day | $0.27/day | **82%** |
-| AI Director prompts | $0.90/day | $0.10/day | **89%** |
-| Batch translations | $3.00 | $1.50 | **50%** |
+## 💡 Key Insight: Image Workloads
+
+> **Why only 14% caching savings instead of 90%?**
+
+In image tasks, images = ~85% of tokens. Only the system prompt (~15%) is cacheable.
+
+```
+Input Composition:
+├── System Prompt: ~15% → ✅ Cacheable (90% off)
+└── Image Data:    ~85% → ❌ Cannot cache
+
+Actual Savings: 15% × 90% = ~14%
+```
+
+**This is NOT in the official docs — we learned it the hard way!**
 
 ---
 
-<a name="日本語"></a>
-## 🇯🇵 日本語
+## 📁 Repository Structure
 
-### 問題
-
-Claude APIのコストは高くなりがちです：
-- Sonnet: 入力$3 / 出力$15（100万トークンあたり）
-- Opus: 入力$15 / 出力$75（100万トークンあたり）
-
-### 解決策
-
-公式に検証された3つのテクニックで**50-90%節約**：
-
-| テクニック | 節約率 | 最適な用途 |
-|-----------|--------|----------|
-| **Batch API** | 50%オフ | 急がない一括タスク |
-| **Prompt Caching** | 90%オフ | 繰り返しのシステムプロンプト |
-| **Extended Thinking** | 約80%オフ | 複雑な推論（思考部分）|
-
-### インストール
-
-```bash
-# Claude Codeのskillsフォルダにコピー
-cp claude-api-cost-optimization.skill.md ~/.claude/skills/
 ```
-
----
-
-<a name="中文"></a>
-## 🇹🇼 中文
-
-### 問題
-
-Claude API 費用很容易累積：
-- Sonnet: 輸入 $3 / 輸出 $15（每百萬 token）
-- Opus: 輸入 $15 / 輸出 $75（每百萬 token）
-
-### 解決方案
-
-三個官方驗證的技巧，可省 **50-90%**：
-
-| 技巧 | 節省 | 適用場景 |
-|------|------|---------|
-| **Batch API** | 50% off | 不急的批量任務 |
-| **Prompt Caching** | 90% off | 重複的系統提示 |
-| **Extended Thinking** | ~80% off | 複雜推理（思考部分）|
-
-### 安裝
-
-```bash
-# 複製到 Claude Code skills 資料夾
-cp claude-api-cost-optimization.skill.md ~/.claude/skills/
+├── claude-api-cost-optimization.skill.md  # ← Install this!
+│
+├── examples/                    # Real evidence
+│   ├── billing-data-analysis.md # Anthropic Console CSV
+│   ├── real-batch-results.md    # Actual API response
+│   └── GAIA-savings-report.md   # 294 video case study
+│
+├── scripts/                     # Ready-to-run code
+│   ├── batch_example.py
+│   ├── cache_example.py
+│   └── calculate_savings.py
+│
+└── references/                  # Quick cheatsheets
+    ├── batch-api.md
+    ├── prompt-caching.md
+    └── extended-thinking.md
 ```
-
----
 
 ## 📊 Pricing Reference (2026)
 
@@ -185,75 +129,25 @@ cp claude-api-cost-optimization.skill.md ~/.claude/skills/
 | Sonnet 4.5 | $3/MTok | $15/MTok | $1.50/MTok | $7.50/MTok |
 | Haiku 4.5 | $1/MTok | $5/MTok | $0.50/MTok | $2.50/MTok |
 
-### Prompt Caching Pricing
+| Cache Type | Price | vs Normal |
+|------------|-------|-----------|
+| Cache write | $3.75/MTok | +25% (first time) |
+| **Cache read** | **$0.30/MTok** | **-90%** ✅ |
 
-| Type | Sonnet Price | vs Normal |
-|------|--------------|-----------|
-| Normal input | $3/MTok | Baseline |
-| Cache write (5min) | $3.75/MTok | +25% |
-| **Cache read** | **$0.30/MTok** | **-90%** |
+## 🔗 Official Docs
 
----
-
-## 📁 Repository Structure
-
-```
-├── README.md                              # This file
-├── STORY.md                               # The backstory
-├── claude-api-cost-optimization.skill.md  # The skill (copy this!)
-│
-├── 📊 examples/                           # Real-world evidence
-│   ├── GAIA-savings-report.md             # Detailed GAIA v4.8.2 analysis
-│   └── real-batch-results.md              # Actual Batch API results (with cache hits!)
-│
-├── 🔧 scripts/                            # Ready-to-use Python scripts
-│   ├── batch_example.py                   # Batch API demo
-│   ├── cache_example.py                   # Prompt Caching demo
-│   └── calculate_savings.py               # CLI savings calculator
-│
-├── 📚 references/                         # Quick reference guides
-│   ├── batch-api.md                       # Batch API cheatsheet
-│   ├── prompt-caching.md                  # Caching cheatsheet
-│   └── extended-thinking.md               # Extended Thinking cheatsheet
-│
-└── assets/preview.png                     # Preview image
-```
-
-### 📊 Real Evidence
-
-We provide **actual API usage data** to back up our savings claims:
-
-| Evidence | Source | Key Finding |
-|----------|--------|-------------|
-| [GAIA Savings Report](examples/GAIA-savings-report.md) | 294 video processing | 57% combined savings |
-| [Batch Results](examples/real-batch-results.md) | Real API response | 50.2% savings with cache hits |
-
-### 🔧 Try It Yourself
-
-```bash
-# Calculate your potential savings
-python scripts/calculate_savings.py --input 10000 --output 5000 --system 2000 --requests 100
-
-# Run batch API example
-python scripts/batch_example.py
-
-# Run caching example
-python scripts/cache_example.py
-```
+- [Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+- [Batch Processing](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing)
+- [Extended Thinking](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking)
 
 ---
 
-## 🔗 Official Documentation
+## 🐾 The Story (Optional Reading)
 
-- [Prompt Caching](https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching)
-- [Batch Processing](https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing)
-- [Extended Thinking](https://platform.claude.com/docs/en/docs/build-with-claude/extended-thinking)
-- [Pricing](https://claude.com/pricing)
+This skill was born from **[Washin Village](https://washinmura.jp)** — home of 28 cats & dogs in Japan. While building our AI pet recognition system, API bills added up quickly. We researched every cost-saving technique and compiled them here.
+
+> Full story: [STORY.md](STORY.md)
 
 ---
 
-## 🐾 Credits
-
-Made with 💰 by [Washin Village](https://washinmura.jp) — Home of 28 cats & dogs in Japan's Boso Peninsula.
-
-*Save money, make more content!*
+*Made with 💰 by Washin Village — Save money, make more content!*
