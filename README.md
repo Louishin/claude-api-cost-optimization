@@ -26,14 +26,33 @@ python scripts/calculate_savings.py --input 10000 --output 5000 --requests 100
 
 ## 📊 Proof: Real Billing Data
 
-### Latest: 294 Video Batch Job (2026-01-28)
+### 🔥 Latest: 294 Video Batch Job (2026-01-28)
 
 | Item | Value |
 |------|-------|
 | Files Processed | 294 |
-| Original Cost | $11.17 |
-| **Batch Cost** | **$5.59** |
-| **💰 Savings** | **$5.59 (50%)** |
+| Total Tokens | 1,500,944 |
+| Original Cost | $11.04 |
+| **Batch Cost** | **$5.52** |
+| **💰 Savings** | **$5.52 (50%)** |
+| Per Request | $0.0188 |
+
+#### Token Breakdown (From Anthropic Console)
+| Token Type | Count | Cost |
+|------------|-------|------|
+| Input (no cache) | 365,624 | $0.55 |
+| Cache write (1h) | 106,920 | $0.32 |
+| Cache read | 416,988 | $0.06 |
+| Output | 611,412 | $4.59 |
+
+### ⚡ Surprising Discovery: Batch Size Doesn't Matter!
+
+| Batch | Requests | Created | Completed |
+|-------|----------|---------|-----------|
+| 🐁 Small | 10 | 11:50 AM | ⏳ Still processing |
+| 🐘 Large | 294 | 10:22 AM | ✅ **Finished first!** |
+
+**The large batch completed ~1.5 hours BEFORE the small batch!**
 
 👉 **Full case study:** [examples/batch-294-videos-case-study.md](examples/batch-294-videos-case-study.md)
 

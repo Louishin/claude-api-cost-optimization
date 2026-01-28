@@ -228,12 +228,38 @@ Is it complex reasoning?
 
 ---
 
-## 🎯 Real World Case Study
+## 🎯 Real World Case Studies
 
-### GAIA Animal Recognition System (v4.8.2)
+### Case Study #1: GAIA v4.8.2 (294 Videos)
 
-Battle-tested with 294 animal videos:
+Battle-tested with Washinmura animal videos for L9/L10/L11 content generation:
 
+#### Token Breakdown (Actual Data)
+| Token Type | Count | Cost |
+|------------|-------|------|
+| Input (no cache) | 365,624 | $0.55 |
+| Cache write (1h) | 106,920 | $0.32 |
+| Cache read | 416,988 | $0.06 |
+| Output | 611,412 | $4.59 |
+| **Total** | **1,500,944** | **$5.52** |
+
+#### Cost Comparison
+| Method | Cost | Per Request |
+|--------|------|-------------|
+| Standard API | $11.04 | $0.0376 |
+| **Batch API** | **$5.52** | **$0.0188** |
+| **Savings** | **$5.52 (50%)** | |
+
+#### 🔥 Surprising Discovery: Batch Size Doesn't Matter!
+
+| Batch | Requests | Created | Status |
+|-------|----------|---------|--------|
+| 🐁 Small | 10 | 11:50 AM | ⏳ Still processing |
+| 🐘 Large | 294 | 10:22 AM | ✅ Completed first! |
+
+**Conclusion**: Large batches completed BEFORE small batches! Batch size has NO impact on processing time.
+
+#### Technique Performance
 | Technique | Expected | Actual | Why Different? |
 |-----------|----------|--------|----------------|
 | Prompt Caching | -90% | **-14%** | Images = 85% of tokens (uncacheable) |
@@ -242,6 +268,23 @@ Battle-tested with 294 animal videos:
 
 **💡 Lesson**: For image/video workloads, expect ~14% from caching (not 90%).
 The 90% only applies to the system prompt portion.
+
+### Case Study #2: Bug Discovery During Implementation
+
+**Problem**: `--batch-check` wrote results to wrong files!
+
+**Root Cause**: Path inconsistency
+```python
+# Stage 1 save (correct)
+sidecar_path = file_path.with_suffix('.gaia.json')  # → xxx.gaia.json
+
+# batch-check read/write (wrong!)
+sidecar_path = file_path.with_suffix(file_path.suffix + '.gaia.json')  # → xxx.mp4.gaia.json
+```
+
+**Result**: 291 results written to wrong files, had to merge manually.
+
+**Lesson**: Always use the same path construction logic for save AND retrieve!
 
 ---
 
