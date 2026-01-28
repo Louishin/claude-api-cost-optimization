@@ -21,7 +21,7 @@ This suggests Anthropic's worker allocation is not FIFO — batch size has NO im
 
 | Item | Value |
 |------|-------|
-| **Batch ID** | `msgbatch_01KuerZBFziJmiaBm7Sv6axB` |
+| **Batch ID** | `msgbatch_01Ku...xxxxx` |
 | **Files Processed** | 294 |
 | **Total Tokens** | 1,500,944 |
 | **Original Cost** | $11.04 |
